@@ -34,8 +34,20 @@ function insert(name, data, callback) {
         }
     });
 }
+function find(name, filter, callback) {
+    getDb((err, db)=>{
+        if (err) callback(err);
+        else {
+            db.collection(name).find(filter, (err, res) => {
+                if (err) callback(err);
+                else callback(null, res.ops && res.ops[0]);
+            });
+        }
+    });
+}
 
 module.exports = {
-    insert
+    insert,
+    find
 };
 
