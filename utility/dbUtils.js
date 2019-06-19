@@ -1,5 +1,5 @@
 //@ts-check
-const MongoClient = require("mongodb").MongoClient;
+const { MongoClient } = require("mongodb");
 const password = "BkfVr8cON8pfZ3Xd";
 const url = `mongodb+srv://ravi:${password}@cluster0-db10a.mongodb.net/test?retryWrites=true&w=majority`;
 
@@ -54,8 +54,21 @@ function find(name, filter, callback) {
     });
 }
 
+function remove(name, query, callback) {
+    getDb((err, db)=>{
+        if (err) callback(err);
+        else {
+            db.collection(name).deleteMany(query, (err, res) => {
+                if (err) callback(err);
+                else callback(null, res);
+            });
+        }
+    });
+}
+
 module.exports = {
     insert,
-    find
+    find,
+    remove
 };
 
