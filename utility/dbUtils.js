@@ -35,12 +35,20 @@ function insert(name, data, callback) {
     });
 }
 function find(name, filter, callback) {
-    getDb((err, db)=>{
+    getDb((err, db) => {
         if (err) callback(err);
         else {
-            db.collection(name).find(filter, (err, res) => {
+            db.collection(name).find(filter, (err, cursor) => {
                 if (err) callback(err);
-                else callback(null, res.ops && res.ops[0]);
+                else {
+                    cursor.toArray(function(err, res){
+                        if (err) callback(err);
+                        else {
+                            callback(null, res);
+                        }
+
+                    });
+                }
             });
         }
     });

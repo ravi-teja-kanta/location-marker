@@ -2,9 +2,6 @@
 const turf = require("@turf/turf");
 const S2 = require("s2-geometry").S2;
 
-// let geoJson = require("./sample-geo.json");
-
-
 function getNeighboursAtLevel(point, level) {
     let keys = S2.latLngToNeighborKeys(...point, level);
     let ltlngs = keys.map((key)=>S2.keyToLatLng(key));
@@ -64,6 +61,8 @@ function getNearestS2CellsAtLevel(geoJson, level=15) {
 module.exports = {
     getNearestS2CellsAtLevel
 };
+// :TEST
+// let geoJson = require("./sample-geo.json");
 // let start = Date.now();
 // console.log(getNearestS2CellsAtLevel(geoJson, level));
 // console.log("Time elapsed: ",(Date.now() - start)/1000, "seconds");
