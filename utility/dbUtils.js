@@ -1,9 +1,9 @@
 //@ts-check
 const { MongoClient } = require("mongodb");
 const password = "BkfVr8cON8pfZ3Xd";
-const url = `mongodb+srv://ravi:${password}@cluster0-db10a.mongodb.net/test?retryWrites=true&w=majority`;
-
-// var db;
+const url = `mongodb://localhost:27017/`;
+const mongoose = require("mongoose");
+mongoose.connect(url);
 // MongoClient.connect(url, (err, client) => {
 //     if (err) {
 //         console.log(err);
@@ -20,17 +20,23 @@ function getDb(callback) {
         if (err) {
             callback(err);
         }
-        callback(null, client.db("trial"));
+        else callback(null, client.db("test"));
     });
 }
 function insert(name, data, callback) {
     getDb((err, db)=>{
         if (err) callback(err);
         else {
-            db.collection(name).insert(data, (err, res) => {
-                if (err) callback(err);
-                else callback(null, res.ops && res.ops[0]);
-            });
+            if (!Array.isArray(data)) {
+                data = [data];
+            }
+            if (!data.length) callback(new Error("Trying to Insert Somethig Empty"));
+            else {
+                db.collection(name).insertMany(data, (err, res) => {
+                    if (err) callback(err);
+                    else callback(null, res.ops && res.ops[0]);
+                });
+            }
         }
     });
 }

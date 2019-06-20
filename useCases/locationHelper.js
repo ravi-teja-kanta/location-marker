@@ -231,10 +231,10 @@ function deleteLocation(locationId, finalCallback) {
 // remove("s2CellData", {"_id": new ObjectID("5d08dece96c620b2c21adc0c")}, (err, res)=>{console.log(err||res)});
 // :TEST
 // const geoJson = require("../sample-geo.json");
-// addNewLocation("sector 12 && 14 - v2", geoJson, sampleCallback);
+// addNewLocation("sector 12 && 14 - v3", geoJson, sampleCallback);
 // handleS2CellIdCollision("sector 14", geoJson, sampleCallback);
 // function sampleCallback(err, res) {
-//     console.log(err||res);
+    // console.log(err||res);
 // }
 module.exports = {
     getLocationNameFromLatLong,

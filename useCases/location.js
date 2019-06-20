@@ -10,6 +10,7 @@ router.post("/addNew", (req, res) => {
         geoJson
     } = req.body;
     addNewLocation(locationName, geoJson, (err, result) => {
+        console.log(err||result);
         if (err) {
             res.send(err);
         } else {
