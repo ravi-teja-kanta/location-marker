@@ -13,7 +13,7 @@ function getLocationNameFromLatLong(latLng, finalCallback) {
             getS2CellData(s2CellId, callback);
         },
         (s2CellData, callback) => {
-            if (!s2CellData.result) callback(null);
+            if (!s2CellData.result) callback(null, null);
             else {
                 let {
                     result: {
@@ -24,13 +24,13 @@ function getLocationNameFromLatLong(latLng, finalCallback) {
             }
         },
         (locationId, callback) => {
-            if (!locationId) callback(null);
+            if (!locationId) callback(null, null);
             else {
                 find("location", { _id: locationId }, callback);
             }
         },
         (locationData, callback) => {
-            if (!locationData.length) callback(null);
+            if (!locationData || (locationData && !locationData.length)) callback(null, null);
             else {
                 let location = locationData[0];
                 callback(null, {

@@ -12,7 +12,7 @@ function initMap() {
           drawingControl: true,
           drawingControlOptions: {
             position: google.maps.ControlPosition.TOP_CENTER,
-            drawingModes: ['polygon']
+            drawingModes: ['polygon',"marker"]
           }
         });
         drawingManager.setMap(map);
@@ -33,6 +33,14 @@ function initMap() {
                 }
             };
             console.log(currPolygon);
+        });
+
+        google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
+            let {
+                position
+            } = event.overlay;
+            document.getElementById("lat").value = position.lat();
+            document.getElementById("lng").value = position.lng();
         });
         
     }
@@ -56,7 +64,30 @@ function initMap() {
         fetch(url, options)
             // .then(data=>data.json())
             .then(res=>{
-                console.log(res)
+                console.log(res);
+            })
+            .catch(err=>console.log(err));
+    }
+    function search() {
+        let data = [document.getElementById("lat").value, document.getElementById("lng").value];
+        console.log(data);
+        const url = "http://localhost:3000/location/getLocationNameFromLatLng";
+        let options = {
+            method: "POST",
+            headers: {
+                "Content-Type":"application/x-www-form-urlencoded"
+            },
+            body: JSON.stringify({
+                latLng: data
+            })
+        };
+        fetch(url, options)
+            .then(data=>data.json())
+            .then(res=>{
+                console.log("hello", res);
+                if (res) {
+                    document.getElementById("searchedLocation").value = res.result;
+                }
             })
             .catch(err=>console.log(err));
     }

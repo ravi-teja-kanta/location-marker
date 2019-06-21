@@ -2,8 +2,8 @@
 const { MongoClient } = require("mongodb");
 const password = "BkfVr8cON8pfZ3Xd";
 const url = `mongodb://localhost:27017/`;
-const mongoose = require("mongoose");
-mongoose.connect(url);
+// const mongoose = require("mongoose");
+// mongoose.connect(url);
 // MongoClient.connect(url, (err, client) => {
 //     if (err) {
 //         console.log(err);

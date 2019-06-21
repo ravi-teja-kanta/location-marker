@@ -24,16 +24,14 @@ router.post("/addNew", (req, res) => {
 
 router.post("/getLocationNameFromLatLng", (req, res) => {
     let {
-        latlng
+        latLng
     } = req.body;
-    getLocationNameFromLatLong(latlng, (err, result) => {
+    getLocationNameFromLatLong(latLng, (err, result) => {
+        console.log(err||result);
         if (err) {
             res.send(err);
         } else {
-            res.send({
-                status: 200,
-                result
-            });
+            res.status(200).send(JSON.stringify(result));
         }
     });
 });

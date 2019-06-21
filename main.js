@@ -4,11 +4,12 @@ const app = express();
 const PORT = 3000;
 const bodyParser = require("body-parser");
 const location = require("./useCases/location");
-
+const cors = require("cors");
 app.use(bodyParser.json({
     inflate:true,
     type: "application/x-www-form-urlencoded"
 }));
+app.use(cors());
 app.use("/location", location);
 
 app.get("/new", (req, res)=>{res.send({status: 200})});
