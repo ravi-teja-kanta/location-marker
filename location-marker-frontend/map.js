@@ -35,10 +35,10 @@ function initMap() {
             console.log(currPolygon);
         });
 
-        google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
+        google.maps.event.addListener(drawingManager, "markercomplete", function (marker) {
             let {
                 position
-            } = event.overlay;
+            } = marker;
             document.getElementById("lat").value = position.lat();
             document.getElementById("lng").value = position.lng();
         });
@@ -47,7 +47,8 @@ function initMap() {
     function go() {
         callBackend({
             locationName: document.getElementById("locationName").value,
-            geoJson
+            geoJson,
+            force: document.getElementById("force").checked
         });
     }
     function callBackend(data) {

@@ -7,7 +7,8 @@ const {  getLocationNameFromLatLong, addNewLocation } = require("./locationHelpe
 router.post("/addNew", (req, res) => {
     let {
         locationName,
-        geoJson
+        geoJson,
+        force
     } = req.body;
     addNewLocation(locationName, geoJson, (err, result) => {
         console.log(err||result);
@@ -19,7 +20,7 @@ router.post("/addNew", (req, res) => {
                 result
             });
         }
-    });
+    }, force);
 });
 
 router.post("/getLocationNameFromLatLng", (req, res) => {

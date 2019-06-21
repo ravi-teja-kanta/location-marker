@@ -87,7 +87,7 @@ function checkForOverLapOfS2CellsWithExistingOnes(s2CellIds, finalCallback) {
 // checkForOverLapOfS2CellsWithExistingOnes(["600", "700", "5017247809041072128"], (err, res)=>{
 //     console.log(err||res);
 // });
-function addNewLocation(locationName, geoJson, finalCallback, force=false) {
+function addNewLocation(locationName, geoJson, finalCallback, force) {
 
     function updateS2CellData(s2Cells, locationId, callback) {
         let s2CellData = s2Cells.map((s2CellId) => { return {locationId, s2CellId} });
@@ -121,7 +121,9 @@ function addNewLocation(locationName, geoJson, finalCallback, force=false) {
             } = locationData;
             updateS2CellData(s2CellsInTheLocation, locationId, callback);
         }
-    ], finalCallback);
+    ], (err, data)=>{
+        finalCallback(err, data);
+    });
 }
 
 function handleS2CellIdCollision(newLocationName, newGeoJson, finalCallback) {
@@ -150,12 +152,16 @@ function handleS2CellIdCollision(newLocationName, newGeoJson, finalCallback) {
             deleteLocation(oldLocationId, callback);
         },
         (deletedData, callback) => {
-            addNewLocation(newLocationName, newGeoJson, callback);
+            addNewLocation(newLocationName, newGeoJson, callback, true);
         },
         (newLocationData, callback) => {
-            let intersection = turf.intersect(oldGeoJson, newGeoJson);
-            let clippedOldGeoJson = turf.difference(oldGeoJson, intersection);
-            addNewLocation(oldLocationName, clippedOldGeoJson, callback);
+            delete newGeoJson["_id"];
+            // let intersection = turf.intersect(oldGeoJson, newGeoJson);
+            let clippedOldGeoJson = turf.difference(turf.envelope(oldGeoJson), turf.envelope(newGeoJson));
+            // console.log(clippedOldGeoJson);
+            console.log(oldGeoJson, newGeoJson);
+            addNewLocation(oldLocationName, clippedOldGeoJson, callback, true);
+            // callback(null, newGeoJson);
         }
     ], finalCallback);
 }
