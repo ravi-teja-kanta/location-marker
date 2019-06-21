@@ -86,9 +86,15 @@ function initMap() {
             .then(data=>data.json())
             .then(res=>{
                 console.log("hello", res);
-                if (res) {
-                    document.getElementById("searchedLocation").value = res.result;
-                }
+                    let result;
+                    if(res) {
+                        result = res.result;
+                    }
+                    else {
+                        result = "NULL";
+                    }
+                    document.getElementById("searchedLocation").value = result;
+                
             })
             .catch(err=>console.log(err));
     }

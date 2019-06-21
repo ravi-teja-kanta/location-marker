@@ -152,15 +152,14 @@ function handleS2CellIdCollision(newLocationName, newGeoJson, finalCallback) {
             deleteLocation(oldLocationId, callback);
         },
         (deletedData, callback) => {
-            addNewLocation(newLocationName, newGeoJson, callback, true);
+            let intersection = turf.intersect(turf.envelope(oldGeoJson), turf.envelope(newGeoJson));
+            let clippedOldGeoJson = turf.difference(turf.envelope(oldGeoJson), turf.envelope(intersection));
+            addNewLocation(oldLocationName, clippedOldGeoJson, callback, true);
         },
         (newLocationData, callback) => {
             delete newGeoJson["_id"];
-            // let intersection = turf.intersect(oldGeoJson, newGeoJson);
-            let clippedOldGeoJson = turf.difference(turf.envelope(oldGeoJson), turf.envelope(newGeoJson));
             // console.log(clippedOldGeoJson);
-            console.log(oldGeoJson, newGeoJson);
-            addNewLocation(oldLocationName, clippedOldGeoJson, callback, true);
+            addNewLocation(newLocationName, newGeoJson, callback, true);
             // callback(null, newGeoJson);
         }
     ], finalCallback);

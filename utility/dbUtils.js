@@ -30,7 +30,10 @@ function insert(name, data, callback) {
             if (!Array.isArray(data)) {
                 data = [data];
             }
-            if (!data.length) callback(new Error("Trying to Insert Somethig Empty"));
+            if (!data.length) {
+                console.error(name);
+                callback(new Error("Trying to Insert Somethig Empty"));
+            }
             else {
                 db.collection(name).insertMany(data, (err, res) => {
                     if (err) callback(err);
